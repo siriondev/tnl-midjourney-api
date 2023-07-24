@@ -10,7 +10,7 @@ To use this module, you need to have Node.js installed on your machine. To insta
 npm install tnl-midjourney-api
 ```
 
-## Usage
+## TNL Usage
 
 Here is an example of how to use the module to create an image from a prompt:
 
@@ -123,5 +123,60 @@ Sets the settings for your account.
 
 Gets information about your account including Fast Time Remaining, Job Mode, Queued Jobs and more.
 
+- `ref` (optional) - A reference string that will be returned in the webhook response.
+- `webhookOverride` (optional) - A webhook URL that will be used instead of the one set in the dashboard.
+
+
+
+## TNL Balanced Usage
+
+Here is an example of how to use the module to create an image from a prompt:
+
+```javascript
+import { TNLBalanced } from 'tnl-midjourney-api';
+
+const TNL_API_KEY = 'your_api_key_here';
+const tnl = new TNLBalanced(TNL_API_KEY);
+
+const prompt = 'a cat playing the piano';
+const response = await tnl.imagine(prompt);
+
+console.log(response);
+```
+
+## API
+
+### `new TNLBalanced(apiKey: string)`
+
+Creates a new instance of `TNLBalanced` with the provided `apiKey`.
+
+### Imagine
+
+`tnl.imagine(prompt: string, ref?: string, webhookOverride?: string): Promise<TNLTypes.Response.MessageLB>`
+
+Creates a new image from a prompt.
+
+- `prompt` - The prompt you want to use to generate the image.
+- `ref` (optional) - A reference string that will be returned in the webhook response.
+- `webhookOverride` (optional) - A webhook URL that will be used instead of the one set in the dashboard.
+
+### Get Progress and Message Result
+
+`tnl.getMessageAndProgress(messageId: string, expireMins?: number): Promise<TNLTypes.Response.MessageAndProgress>`
+
+Gets the progress and response of a message.
+
+- `messageId` - The message ID of the message you want to get the progress and response for.
+- `loadBalanceId` - The load balance IF of the message you want to get the progress and response for.
+- `expireMins` (optional) - A timeout for the request in minutes. If the request takes longer than this, it will return as 'incomplete'
+
+### Button
+
+`tnl.button(button: TNLTypes.ButtonTypes, buttonMessageId: string, ref?: string, webhookOverride?: string): Promise<TNLTypes.Response.MessageLB>`
+
+Uses a button on an image.
+
+- `button` - A button type.
+- `buttonMessageId` - The buttonMessageId of the message that contains the button.
 - `ref` (optional) - A reference string that will be returned in the webhook response.
 - `webhookOverride` (optional) - A webhook URL that will be used instead of the one set in the dashboard.
